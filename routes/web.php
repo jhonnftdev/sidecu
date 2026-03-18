@@ -27,3 +27,34 @@ Route::post('/direcciones', [DireccionController::class, 'store'])
 Route::get('/listar-direcciones', [DireccionController::class, 'listar'])
     ->name('direcciones.listar');
 
+/*
+|--------------------------------------------------------------------------
+| BUSCADOR
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/direcciones/buscar', [DireccionController::class, 'buscar'])
+    ->name('direcciones.buscar');
+
+
+/*
+|--------------------------------------------------------------------------
+| CRUD
+|--------------------------------------------------------------------------
+*/
+
+// Mostrar registro individual
+Route::get('/direcciones/{id}', [DireccionController::class, 'show'])
+    ->name('direcciones.show');
+
+// Formulario editar
+Route::get('/direcciones/{id}/editar', [DireccionController::class, 'edit'])
+    ->name('direcciones.edit');
+
+// Actualizar
+Route::put('/direcciones/{id}', [DireccionController::class, 'update'])
+    ->name('referencias.update');
+
+// Eliminar
+Route::delete('/direcciones/{id}', [DireccionController::class, 'destroy'])
+    ->name('direcciones.destroy');
