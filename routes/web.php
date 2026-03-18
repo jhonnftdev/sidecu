@@ -53,7 +53,7 @@ Route::get('/direcciones/{id}/editar', [DireccionController::class, 'edit'])
 
 // Actualizar
 Route::put('/direcciones/{id}', [DireccionController::class, 'update'])
-    ->name('referencias.update');
+    ->name('direcciones.update');
 
 // Eliminar
 Route::delete('/direcciones/{id}', [DireccionController::class, 'destroy'])

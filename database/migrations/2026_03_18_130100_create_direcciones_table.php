@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('direcciones', function (Blueprint $table) {
     $table->id();
-    $table->string('canton', 100);
-    $table->string('calle_principal', 150);
-    $table->string('calle_secundaria', 150)->nullable();
-    $table->text('referencia');
+    $table->string('canton', 50);
+    $table->string('calle_principal', 50);
+    $table->string('calle_secundaria',50);
+    $table->string('referencia',50);
+    $table->string('observacion',50)->nullable();
+
     $table->timestamps();
         });
     }
