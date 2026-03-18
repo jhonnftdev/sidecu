@@ -80,3 +80,20 @@ Guardar
 </div>
 
 </div>
+
+<script>
+
+// Convertir texto a MAYÚSCULAS automáticamente
+document.querySelectorAll('.mayus').forEach(function(input){
+
+input.addEventListener('input', function(){
+
+this.value = this.value.toUpperCase();
+
+});
+
+});
+
+</script>
+
+@endsection
