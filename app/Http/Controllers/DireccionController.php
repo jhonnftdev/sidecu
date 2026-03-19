@@ -41,7 +41,7 @@ class DireccionController extends Controller
             $query->where('canton','like','%'.$request->canton.'%');
         }
 
-        $direcciones = $query->orderBy('id','desc')->paginate(10);
+        $direcciones = $query->orderBy('id','desc')->paginate(20);
 
         return view('direcciones.listar', compact('direcciones'));
     }

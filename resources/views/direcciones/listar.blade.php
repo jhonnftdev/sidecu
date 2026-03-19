@@ -18,8 +18,11 @@
         </div>
 
         <div class="card-body">
+
+            {{-- FORMULARIO --}}
             <form id="formBusqueda" method="GET" action="{{ route('direcciones.listar') }}" class="mb-4">
                 <div class="row">
+
                     <div class="col-md-3">
                         <label>Cantón</label>
                         <select name="canton" id="canton" class="form-control">
@@ -35,15 +38,26 @@
 
                     <div class="col-md-4">
                         <label>Buscar</label>
-                        <input type="text" name="buscar" id="buscar" class="form-control" placeholder="Calle, referencia o palabra clave" value="{{ request('buscar') }}">
+                        <input 
+                            type="text" 
+                            name="buscar" 
+                            id="buscar"
+                            class="form-control" 
+                            placeholder="Calle, referencia o palabra clave"
+                            value="{{ request('buscar') }}"
+                        >
                     </div>
 
                     <div class="col-md-2 d-flex align-items-end">
-                        <a href="{{ route('direcciones.listar') }}" class="btn btn-secondary w-100">Limpiar</a>
+                        <a href="{{ route('direcciones.listar') }}" class="btn btn-secondary w-100">
+                            Limpiar
+                        </a>
                     </div>
+
                 </div>
             </form>
 
+            {{-- FUNCIÓN RESALTAR --}}
             @php
             function resaltarTexto($texto){
                 $buscar = request('buscar');
@@ -58,11 +72,13 @@
             }
             @endphp
 
+            {{-- CONTADOR --}}
             <div class="mb-3">
                 Mostrando {{ $direcciones->firstItem() }} - {{ $direcciones->lastItem() }} 
                 de {{ $direcciones->total() }} direcciones
             </div>
 
+            {{-- TABLA --}}
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
@@ -78,8 +94,9 @@
                     <tr>
                         <td>{!! resaltarTexto($direccion->canton) !!}</td>
                         <td>
-                            {{-- Concatenación de Principal y Secundaria con una "Y" --}}
-                            {!! resaltarTexto($direccion->calle_principal) !!}@if($direccion->calle_secundaria)-{!! resaltarTexto($direccion->calle_secundaria) !!}
+                            {!! resaltarTexto($direccion->calle_principal) !!}
+                            @if($direccion->calle_secundaria)
+                                - {!! resaltarTexto($direccion->calle_secundaria) !!}
                             @endif
                         </td>
                         <td>{!! resaltarTexto($direccion->referencia) !!}</td>
@@ -90,7 +107,9 @@
                             <form action="{{ route('direcciones.destroy',$direccion->id) }}" method="POST" style="display:inline-block">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar esta dirección?')">Eliminar</button>
+                                <button class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar esta dirección?')">
+                                    Eliminar
+                                </button>
                             </form>
                         </td>
                     </tr>
@@ -98,25 +117,48 @@
                 </tbody>
             </table>
 
+            {{-- PAGINACIÓN --}}
             <div class="mt-3">
-                {{ $direcciones->appends(request()->query())->links() }}
+                {{ $direcciones->withQueryString()->links('pagination::bootstrap-5') }}
             </div>
+
         </div>
     </div>
 </div>
 
+{{-- SCRIPT PARA BÚSQUEDA AUTOMÁTICA --}}
 <script>
-    let timer;
-    document.getElementById("buscar").addEventListener("keyup", function(){
-        clearTimeout(timer);
-        timer = setTimeout(function(){
-            document.getElementById("formBusqueda").submit();
-        }, 400);
+document.addEventListener("DOMContentLoaded", function () {
+
+    let input = document.getElementById("buscar");
+    let canton = document.getElementById("canton");
+    let form = document.getElementById("formBusqueda");
+
+    let timeout = null;
+
+    // Buscar al escribir (con retraso)
+    input.addEventListener("keyup", function () {
+        clearTimeout(timeout);
+
+        timeout = setTimeout(() => {
+            form.submit();
+        }, 300);
     });
 
-    document.getElementById("canton").addEventListener("change", function(){
-        document.getElementById("formBusqueda").submit();
+    // Buscar al cambiar cantón
+    canton.addEventListener("change", function () {
+        form.submit();
     });
+
+    // Mantener foco input
+    input.focus();
+
+    //Mantener cursor al final
+    let val = input.value;
+    input.value = "";
+    input.value = val;
+
+});
 </script>
 
 @endsection
