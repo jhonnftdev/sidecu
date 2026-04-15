@@ -135,6 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let form = document.getElementById("formBusqueda");
 
     let timeout = null;
+    
 
     // Buscar al escribir (con retraso)
     input.addEventListener("keyup", function () {
@@ -142,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         timeout = setTimeout(() => {
             form.submit();
-        }, 300);
+        }, 500);
     });
 
     // Buscar al cambiar cantón
